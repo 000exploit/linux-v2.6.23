@@ -315,7 +315,7 @@ CPPFLAGS        := -D__KERNEL__ $(LINUXINCLUDE)
 CFLAGS          := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
 		   -Werror-implicit-function-declaration \
-		   -std=gnu89
+		   -std=gnu89 -fno-pie -fno-pic
 AFLAGS          := -D__ASSEMBLY__
 
 # Read KERNELRELEASE from include/config/kernel.release (if it exists)
