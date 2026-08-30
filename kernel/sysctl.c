@@ -1325,7 +1325,7 @@ int do_sysctl(int __user *name, int nlen, void __user *oldval, size_t __user *ol
 	if (nlen <= 0 || nlen >= CTL_MAXNAME)
 		return -ENOTDIR;
 	if (oldval) {
-		int old_len;
+		int old_len __attribute__((unused));
 		if (!oldlenp || get_user(old_len, oldlenp))
 			return -EFAULT;
 	}
