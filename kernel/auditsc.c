@@ -905,7 +905,7 @@ static void audit_log_exit(struct audit_context *context, struct task_struct *ts
 
 	mutex_lock(&tty_mutex);
 	read_lock(&tasklist_lock);
-	if (tsk->signal && tsk->signal->tty && tsk->signal->tty->name)
+	if (tsk->signal && tsk->signal->tty)
 		tty = tsk->signal->tty->name;
 	else
 		tty = "(none)";
