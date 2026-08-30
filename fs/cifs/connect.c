@@ -2542,7 +2542,6 @@ CIFSNTLMSSPNegotiateSessSetup(unsigned int xid,
 	SESSION_SETUP_ANDX *pSMB;
 	SESSION_SETUP_ANDX *pSMBr;
 	char *bcc_ptr;
-	char *domain;
 	int rc = 0;
 	int remaining_words = 0;
 	int bytes_returned = 0;
@@ -2556,7 +2555,6 @@ CIFSNTLMSSPNegotiateSessSetup(unsigned int xid,
 	cFYI(1, ("In NTLMSSP sesssetup (negotiate)"));
 	if (ses == NULL)
 		return -EINVAL;
-	domain = ses->domainName;
 	*pNTLMv2_flag = FALSE;
 	smb_buffer = cifs_buf_get();
 	if (smb_buffer == NULL) {

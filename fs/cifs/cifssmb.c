@@ -3043,13 +3043,6 @@ GetExtAttrOut:
 #endif /* CONFIG_POSIX */
 
 
-/* security id for everyone */
-static const struct cifs_sid sid_everyone =
-		{1, 1, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0}};
-/* group users */
-static const struct cifs_sid sid_user =
-		{1, 2 , {0, 0, 0, 0, 0, 5}, {32, 545, 0, 0}};
-
 /* Convert CIFS ACL to POSIX form */
 static int parse_sec_desc(struct cifs_sid *psec_desc, int acl_len)
 {
