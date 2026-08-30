@@ -26,7 +26,7 @@ OBJCOPYFLAGS	:= -O binary -R .note -R .comment -S
 LDFLAGS_vmlinux :=
 CHECKFLAGS      += -D__x86_64__ -m64
 
-cflags-y	:=
+cflags-y	:= -std=gnu89
 cflags-kernel-y	:=
 cflags-$(CONFIG_MK8) += $(call cc-option,-march=k8)
 cflags-$(CONFIG_MPSC) += $(call cc-option,-march=nocona)

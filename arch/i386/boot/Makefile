@@ -51,6 +51,7 @@ HOSTCFLAGS_build.o := $(LINUXINCLUDE)
 cflags-i386   := 
 cflags-x86_64 := -m32
 CFLAGS		:= $(LINUXINCLUDE) -g -Os -D_SETUP -D__KERNEL__ \
+		   -std=gnu89 -fno-pie -fno-pic \
 		   $(cflags-$(ARCH)) \
 		   -Wall -Wstrict-prototypes \
 		   -march=i386 -mregparm=3 \

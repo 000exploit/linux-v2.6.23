@@ -17,6 +17,7 @@ GZFLAGS		:=-9
 #CFLAGS		+=-pipe
 # Explicitly specifiy 32-bit ARM ISA since toolchain default can be -mthumb:
 CFLAGS		+=$(call cc-option,-marm,)
+CFLAGS		+=-std=gnu89
 
 # Do not use arch/arm/defconfig - it's always outdated.
 # Select a platform tht is kept up-to-date
