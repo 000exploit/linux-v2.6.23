@@ -10,8 +10,8 @@
 
 #define xchg(ptr,v) ((__typeof__(*(ptr)))__xchg((unsigned long)(v),(ptr),sizeof(*(ptr))))
 
-struct __xchg_dummy { unsigned long a[100]; };
-#define __xg(x) ((struct __xchg_dummy *)(x))
+#define __xg(x) ((volatile unsigned char *)(x))
+
 
 /*
  * The semantics of XCHGCMP8B are a bit strange, this is why
@@ -72,27 +72,30 @@ static inline void __set_64bit_var (unsigned long long *ptr,
  * Note 2: xchg has side effect, so that attribute volatile is necessary,
  *	  but generally the primitive is invalid, *ptr is output argument. --ANK
  */
-static inline unsigned long __xchg(unsigned long x, volatile void * ptr, int size)
+static inline unsigned long __xchg(unsigned long x, volatile void *ptr, int size)
 {
 	switch (size) {
-		case 1:
-			__asm__ __volatile__("xchgb %b0,%1"
-				:"=q" (x)
-				:"m" (*__xg(ptr)), "0" (x)
-				:"memory");
-			break;
-		case 2:
-			__asm__ __volatile__("xchgw %w0,%1"
-				:"=r" (x)
-				:"m" (*__xg(ptr)), "0" (x)
-				:"memory");
-			break;
-		case 4:
-			__asm__ __volatile__("xchgl %0,%1"
-				:"=r" (x)
-				:"m" (*__xg(ptr)), "0" (x)
-				:"memory");
-			break;
+	case 1:
+		__asm__ __volatile__("xchgb %b0,%1"
+			: "+q" (x),
+			  "+m" (*(volatile unsigned char *)ptr)
+			:
+			: "memory");
+		break;
+	case 2:
+		__asm__ __volatile__("xchgw %w0,%1"
+			: "+r" (x),
+			  "+m" (*(volatile unsigned short *)ptr)
+			:
+			: "memory");
+		break;
+	case 4:
+		__asm__ __volatile__("xchgl %0,%1"
+			: "+r" (x),
+			  "+m" (*(volatile unsigned long *)ptr)
+			:
+			: "memory");
+		break;
 	}
 	return x;
 }
