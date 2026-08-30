@@ -777,11 +777,11 @@ static __init __always_inline void efi_limit_regions(unsigned long long size)
 	unsigned long long current_addr = 0;
 	efi_memory_desc_t *md, *next_md;
 	void *p, *p1;
-	int i, j;
+	int j;
 
 	j = 0;
 	p1 = memmap.map;
-	for (p = p1, i = 0; p < memmap.map_end; p += memmap.desc_size, i++) {
+	for (p = p1; p < memmap.map_end; p += memmap.desc_size) {
 		md = p;
 		next_md = p1;
 		current_addr = md->phys_addr +
