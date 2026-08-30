@@ -215,8 +215,8 @@ static int __init gate_vma_init(void)
  * These symbols are defined by vsyscall.o to mark the bounds
  * of the ELF DSO images included therein.
  */
-extern const char vsyscall_int80_start, vsyscall_int80_end;
-extern const char vsyscall_sysenter_start, vsyscall_sysenter_end;
+extern const char vsyscall_int80_start[], vsyscall_int80_end[];
+extern const char vsyscall_sysenter_start[], vsyscall_sysenter_end[];
 static struct page *syscall_pages[1];
 
 static void map_compat_vdso(int map)
@@ -248,11 +248,11 @@ int __init sysenter_setup(void)
 	printk("Compat vDSO mapped to %08lx.\n", __fix_to_virt(FIX_VDSO));
 
 	if (!boot_cpu_has(X86_FEATURE_SEP)) {
-		vsyscall = &vsyscall_int80_start;
-		vsyscall_len = &vsyscall_int80_end - &vsyscall_int80_start;
+		vsyscall = vsyscall_int80_start;
+		vsyscall_len = vsyscall_int80_end - vsyscall_int80_start;
 	} else {
-		vsyscall = &vsyscall_sysenter_start;
-		vsyscall_len = &vsyscall_sysenter_end - &vsyscall_sysenter_start;
+		vsyscall = vsyscall_sysenter_start;
+		vsyscall_len = vsyscall_sysenter_end - vsyscall_sysenter_start;
 	}
 
 	memcpy(syscall_page, vsyscall, vsyscall_len);
