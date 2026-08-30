@@ -210,15 +210,16 @@ cifs_statfs(struct dentry *dentry, struct kstatfs *buf)
 
 /* BB we could add a second check for a QFS Unix capability bit */
 /* BB FIXME check CIFS_POSIX_EXTENSIONS Unix cap first FIXME BB */
-    if ((pTcon->ses->capabilities & CAP_UNIX) && (CIFS_POSIX_EXTENSIONS &
-			le64_to_cpu(pTcon->fsUnixInfo.Capability)))
-	    rc = CIFSSMBQFSPosixInfo(xid, pTcon, buf);
-
-    /* Only need to call the old QFSInfo if failed
-    on newer one */
-    if (rc)
-	if (pTcon->ses->capabilities & CAP_NT_SMBS)
-		rc = CIFSSMBQFSInfo(xid, pTcon, buf); /* not supported by OS2 */
+	if ((pTcon->ses->capabilities & CAP_UNIX) && (CIFS_POSIX_EXTENSIONS &
+	    		le64_to_cpu(pTcon->fsUnixInfo.Capability)))
+	        rc = CIFSSMBQFSPosixInfo(xid, pTcon, buf);
+	
+	/* Only need to call the old QFSInfo if failed
+	on newer one */
+	if (rc)
+		if (pTcon->ses->capabilities & CAP_NT_SMBS)
+			rc = CIFSSMBQFSInfo(xid, pTcon, buf);
+			/* not supported by OS2 */
 
 	/* Some old Windows servers also do not support level 103, retry with
 	   older level one if old server failed the previous call or we
